@@ -9,31 +9,64 @@ const IconEquipe = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="n
 const IconDiarias = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
 const IconCompras = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
 const IconMarcenaria = () => <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 20h20"/><path d="M5 20V8h14v12"/><path d="M9 12h6"/><path d="M12 8V4"/></svg>
+const IconLogout = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
 
 function App() {
+  const [sessao, setSessao] = useState(null)
+  const [emailLogin, setEmailLogin] = useState('')
+  const [senhaLogin, setSenhaLogin] = useState('')
+  const [carregandoLogin, setCarregandoLogin] = useState(false)
   const [abaAtiva, setAbaAtiva] = useState('dashboard')
 
-  // --- ESTADOS ---
+  // --- ESTADOS DO SISTEMA ---
   const [nome, setNome] = useState(''); const [cargo, setCargo] = useState(''); const [valorDiaria, setValorDiaria] = useState('');
   const [funcionarios, setFuncionarios] = useState([])
-
   const [dataCompra, setDataCompra] = useState(''); const [descricaoCompra, setDescricaoCompra] = useState(''); const [valorCompra, setValorCompra] = useState(''); const [numeroNota, setNumeroNota] = useState(''); const [compradorId, setCompradorId] = useState('');
   const [compras, setCompras] = useState([])
-
-  // NOVO: Adicionado tipoMaterial nos estados de pedidos
   const [clienteNome, setClienteNome] = useState(''); const [descricaoProjeto, setDescricaoProjeto] = useState(''); const [tipoMaterial, setTipoMaterial] = useState(''); const [valorTotal, setValorTotal] = useState(''); const [dataEntrega, setDataEntrega] = useState(''); const [responsavelId, setResponsavelId] = useState(''); const [statusPedido, setStatusPedido] = useState('Orçamento');
   const [pedidos, setPedidos] = useState([])
-
   const [nomeItem, setNomeItem] = useState(''); const [qtdAtual, setQtdAtual] = useState(''); const [qtdMinima, setQtdMinima] = useState('');
   const [estoque, setEstoque] = useState([]); const [estoqueEmEdicao, setEstoqueEmEdicao] = useState(null);
-
   const [dataTrabalho, setDataTrabalho] = useState(''); const [funcionarioDiariaId, setFuncionarioDiariaId] = useState(''); const [valorDiariaAplicado, setValorDiariaAplicado] = useState(''); const [horasTrabalhadas, setHorasTrabalhadas] = useState('8');
   const [diarias, setDiarias] = useState([])
 
-  // --- CARGA INICIAL ---
+  // --- AUTENTICAÇÃO E CARGA INICIAL ---
   useEffect(() => {
-    buscarFuncionarios(); buscarCompras(); buscarPedidos(); buscarEstoque(); buscarDiarias();
+    // Verifica se já está logado
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSessao(session)
+    })
+
+    // Ouve mudanças de login/logout
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSessao(session)
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
+
+  useEffect(() => {
+    if (sessao) {
+      buscarFuncionarios(); buscarCompras(); buscarPedidos(); buscarEstoque(); buscarDiarias();
+    }
+  }, [sessao])
+
+  const fazerLogin = async (e) => {
+    e.preventDefault()
+    setCarregandoLogin(true)
+    const { error } = await supabase.auth.signInWithPassword({
+      email: emailLogin,
+      password: senhaLogin,
+    })
+    if (error) {
+      alert('Erro ao entrar: ' + error.message)
+    }
+    setCarregandoLogin(false)
+  }
+
+  const fazerLogout = async () => {
+    await supabase.auth.signOut()
+  }
 
   // --- FUNÇÕES DE BUSCA ---
   const buscarFuncionarios = async () => { const { data } = await supabase.from('funcionarios').select('*').order('criado_em', { ascending: false }); if (data) setFuncionarios(data) }
@@ -56,18 +89,10 @@ function App() {
   const cadastrarPedido = async (e) => { 
     e.preventDefault(); 
     const { error } = await supabase.from('pedidos').insert([{ 
-      cliente_nome: clienteNome, 
-      descricao_projeto: descricaoProjeto, 
-      tipo_material: tipoMaterial, // NOVO: Salvando o tipo de material
-      valor_total: parseFloat(valorTotal), 
-      data_entrega: dataEntrega, 
-      responsavel_id: responsavelId || null, 
-      status: statusPedido 
+      cliente_nome: clienteNome, descricao_projeto: descricaoProjeto, tipo_material: tipoMaterial, 
+      valor_total: parseFloat(valorTotal), data_entrega: dataEntrega, responsavel_id: responsavelId || null, status: statusPedido 
     }]); 
-    if (!error) { 
-      setClienteNome(''); setDescricaoProjeto(''); setTipoMaterial(''); setValorTotal(''); setDataEntrega(''); setResponsavelId(''); setStatusPedido('Orçamento'); 
-      buscarPedidos(); 
-    } 
+    if (!error) { setClienteNome(''); setDescricaoProjeto(''); setTipoMaterial(''); setValorTotal(''); setDataEntrega(''); setResponsavelId(''); setStatusPedido('Orçamento'); buscarPedidos(); } 
   }
 
   const alterarStatusPedido = async (id, novoStatus) => { const { error } = await supabase.from('pedidos').update({ status: novoStatus }).eq('id', id); if (!error) buscarPedidos() }
@@ -89,36 +114,61 @@ function App() {
   const alternarPagamentoDiaria = async (id, statusAtual) => { const { error } = await supabase.from('registro_diarias').update({ pago: !statusAtual }).eq('id', id); if (!error) buscarDiarias() }
   
   const corStatus = (status) => { if (status === 'Concluído') return '#22c55e'; if (status === 'Produção') return '#eab308'; return '#cbd5e1'; }
-
   const btnStyle = (aba) => ({
     display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', cursor: 'pointer', border: 'none', 
-    backgroundColor: abaAtiva === aba ? '#0f172a' : '#f1f5f9', 
-    color: abaAtiva === aba ? '#fff' : '#475569', 
+    backgroundColor: abaAtiva === aba ? '#0f172a' : '#f1f5f9', color: abaAtiva === aba ? '#fff' : '#475569', 
     fontWeight: 'bold', borderRadius: '8px', transition: 'all 0.2s'
   })
 
+  // --- SE NÃO ESTIVER LOGADO, MOSTRA TELA DE LOGIN ---
+  if (!sessao) {
+    return (
+      <div style={{ maxWidth: '400px', margin: '100px auto', fontFamily: '"Segoe UI", Roboto, sans-serif', padding: '20px' }}>
+        <div style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', textAlign: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '15px' }}><IconMarcenaria /></div>
+          <h1 style={{ margin: '0 0 5px 0', fontSize: '22px', color: '#0f172a' }}>Vidal Design e Móveis</h1>
+          <p style={{ color: '#64748b', fontSize: '13px', marginBottom: '25px' }}>Acesso Restrito ao Sistema</p>
+          
+          <form onSubmit={fazerLogin} style={{ display: 'flex', flexDirection: 'column', gap: '12px', textAlign: 'left' }}>
+            <input type="email" placeholder="Seu e-mail" value={emailLogin} onChange={(e) => setEmailLogin(e.target.value)} required style={{ border: '1px solid #cbd5e1', borderRadius: '6px', padding: '10px', fontSize: '14px', outline: 'none' }} />
+            <input type="password" placeholder="Sua senha" value={senhaLogin} onChange={(e) => setSenhaLogin(e.target.value)} required style={{ border: '1px solid #cbd5e1', borderRadius: '6px', padding: '10px', fontSize: '14px', outline: 'none' }} />
+            <button type="submit" disabled={carregandoLogin} style={{ padding: '12px', backgroundColor: '#3b82f6', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px' }}>
+              {carregandoLogin ? 'Entrando...' : 'Entrar no Sistema'}
+            </button>
+          </form>
+        </div>
+      </div>
+    )
+  }
+
+  // --- SE ESTIVER LOGADO, MOSTRA O SISTEMA COMPLETO ---
   return (
     <div style={{ maxWidth: '950px', margin: '40px auto', fontFamily: '"Segoe UI", Roboto, Helvetica, Arial, sans-serif', color: '#1e293b' }}>
       
       {/* CABEÇALHO */}
-      <div style={{ marginBottom: '30px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+      <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <IconMarcenaria />
           <div>
             <h1 style={{ margin: 0, color: '#0f172a', fontSize: '24px' }}>Vidal Design e Móveis</h1>
             <p style={{ margin: '2px 0 0 0', color: '#64748b', fontSize: '13px' }}>Sistema Interno de Gestão</p>
           </div>
         </div>
-        
-        {/* MENU COM ÍCONES SVG */}
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', backgroundColor: '#fff', padding: '10px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-          <button onClick={() => setAbaAtiva('dashboard')} style={btnStyle('dashboard')}><IconDashboard /> Dashboard</button>
-          <button onClick={() => setAbaAtiva('pedidos')} style={btnStyle('pedidos')}><IconPedidos /> Pedidos</button>
-          <button onClick={() => setAbaAtiva('estoque')} style={btnStyle('estoque')}><IconEstoque /> Estoque</button>
-          <button onClick={() => setAbaAtiva('equipe')} style={btnStyle('equipe')}><IconEquipe /> Equipe</button>
-          <button onClick={() => setAbaAtiva('diarias')} style={btnStyle('diarias')}><IconDiarias /> Diárias</button>
-          <button onClick={() => setAbaAtiva('compras')} style={btnStyle('compras')}><IconCompras /> Compras</button>
-        </div>
+
+        {/* Botão de Sair */}
+        <button onClick={fazerLogout} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 14px', backgroundColor: '#fee2e2', color: '#dc2626', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '13px' }}>
+          <IconLogout /> Sair
+        </button>
+      </div>
+
+      {/* MENU */}
+      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', backgroundColor: '#fff', padding: '10px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '30px' }}>
+        <button onClick={() => setAbaAtiva('dashboard')} style={btnStyle('dashboard')}><IconDashboard /> Dashboard</button>
+        <button onClick={() => setAbaAtiva('pedidos')} style={btnStyle('pedidos')}><IconPedidos /> Pedidos</button>
+        <button onClick={() => setAbaAtiva('estoque')} style={btnStyle('estoque')}><IconEstoque /> Estoque</button>
+        <button onClick={() => setAbaAtiva('equipe')} style={btnStyle('equipe')}><IconEquipe /> Equipe</button>
+        <button onClick={() => setAbaAtiva('diarias')} style={btnStyle('diarias')}><IconDiarias /> Diárias</button>
+        <button onClick={() => setAbaAtiva('compras')} style={btnStyle('compras')}><IconCompras /> Compras</button>
       </div>
 
       <div style={{ backgroundColor: '#fff', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}>
@@ -149,7 +199,6 @@ function App() {
           </div>
         )}
 
-        {/* PADRONIZAÇÃO DE INPUTS PARA AS OUTRAS TELAS */}
         <style>{`
           input, select { border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; transition: border-color 0.2s; }
           input:focus, select:focus { border-color: #3b82f6; }
@@ -166,20 +215,14 @@ function App() {
             <form onSubmit={cadastrarPedido} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '40px' }}>
               <input type="text" placeholder="Nome do Cliente" value={clienteNome} onChange={(e) => setClienteNome(e.target.value)} required />
               <input type="text" placeholder="Descrição do Móvel (ex: Armário Cozinha)" value={descricaoProjeto} onChange={(e) => setDescricaoProjeto(e.target.value)} required />
-              
-              {/* NOVO: Campo de Tipo de Material */}
               <input type="text" placeholder="Tipo de Material (ex: MDF Branco TX 15mm)" value={tipoMaterial} onChange={(e) => setTipoMaterial(e.target.value)} required />
-
               <div style={{ display: 'flex', gap: '12px' }}>
                 <input type="number" step="0.01" placeholder="Valor Cobrado (R$)" value={valorTotal} onChange={(e) => setValorTotal(e.target.value)} required style={{ flex: 1 }} />
-                
-                {/* Campo de Data de Entrega já existente e destacado */}
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                   <label style={{ fontSize: '11px', color: '#64748b', marginBottom: '2px', fontWeight: 'bold' }}>Prazo de Entrega:</label>
                   <input type="date" value={dataEntrega} onChange={(e) => setDataEntrega(e.target.value)} required />
                 </div>
               </div>
-
               <div style={{ display: 'flex', gap: '12px' }}>
                 <select value={responsavelId} onChange={(e) => setResponsavelId(e.target.value)} style={{ flex: 1 }}>
                   <option value="">Sem responsável ainda...</option>
@@ -202,7 +245,6 @@ function App() {
                     <td style={{ fontWeight: 'bold' }}>{ped.cliente_nome}</td>
                     <td>
                       {ped.descricao_projeto}
-                      {/* NOVO: Exibindo o material logo abaixo da descrição */}
                       {ped.tipo_material && <span style={{ fontSize: '12px', color: '#64748b', display: 'block' }}>Material: {ped.tipo_material}</span>}
                     </td>
                     <td style={{ fontWeight: '500' }}>{ped.data_entrega.split('-').reverse().join('/')}</td>
