@@ -107,15 +107,15 @@ function App() {
   // --- SE NÃO ESTIVER LOGADO ---
   if (!sessao) {
     return (
-      <div style={{ maxWidth: '400px', margin: '80px auto', fontFamily: '"Segoe UI", Roboto, sans-serif', padding: '20px' }}>
-        <div style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', textAlign: 'center' }}>
+      <div style={{ maxWidth: '400px', margin: '80px auto', fontFamily: '"Segoe UI", Roboto, sans-serif', padding: '20px', backgroundColor: '#f8fafc', minHeight: '100vh', boxSizing: 'border-box' }}>
+        <div style={{ backgroundColor: '#ffffff', padding: '30px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', textAlign: 'center', color: '#1e293b' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '15px' }}><IconMarcenaria /></div>
           <h1 style={{ margin: '0 0 5px 0', fontSize: '22px', color: '#0f172a' }}>Vidal Design e Móveis</h1>
           <p style={{ color: '#64748b', fontSize: '13px', marginBottom: '25px' }}>Acesso Restrito ao Sistema</p>
           
           <form onSubmit={fazerLogin} style={{ display: 'flex', flexDirection: 'column', gap: '12px', textAlign: 'left' }}>
-            <input type="email" placeholder="Seu e-mail" value={emailLogin} onChange={(e) => setEmailLogin(e.target.value)} required style={{ border: '1px solid #cbd5e1', borderRadius: '6px', padding: '12px', fontSize: '14px', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
-            <input type="password" placeholder="Sua senha" value={senhaLogin} onChange={(e) => setSenhaLogin(e.target.value)} required style={{ border: '1px solid #cbd5e1', borderRadius: '6px', padding: '12px', fontSize: '14px', outline: 'none', width: '100%', boxSizing: 'border-box' }} />
+            <input type="email" placeholder="Seu e-mail" value={emailLogin} onChange={(e) => setEmailLogin(e.target.value)} required style={{ border: '1px solid #cbd5e1', borderRadius: '6px', padding: '12px', fontSize: '14px', outline: 'none', width: '100%', boxSizing: 'border-box', backgroundColor: '#fff', color: '#1e293b' }} />
+            <input type="password" placeholder="Sua senha" value={senhaLogin} onChange={(e) => setSenhaLogin(e.target.value)} required style={{ border: '1px solid #cbd5e1', borderRadius: '6px', padding: '12px', fontSize: '14px', outline: 'none', width: '100%', boxSizing: 'border-box', backgroundColor: '#fff', color: '#1e293b' }} />
             <button type="submit" disabled={carregandoLogin} style={{ padding: '12px', backgroundColor: '#3b82f6', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px', width: '100%' }}>
               {carregandoLogin ? 'Entrando...' : 'Entrar no Sistema'}
             </button>
@@ -127,25 +127,25 @@ function App() {
 
   // --- SE ESTIVER LOGADO ---
   return (
-    <div style={{ width: '100%', maxWidth: '950px', margin: '20px auto', fontFamily: '"Segoe UI", Roboto, Helvetica, Arial, sans-serif', color: '#1e293b', boxSizing: 'border-box', padding: '0 15px' }}>
+    <div style={{ width: '100%', maxWidth: '950px', margin: '20px auto', fontFamily: '"Segoe UI", Roboto, Helvetica, Arial, sans-serif', color: '#1e293b', boxSizing: 'border-box', padding: '0 15px', backgroundColor: '#f8fafc', minHeight: '100vh' }}>
       
       {/* CABEÇALHO */}
-      <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px', paddingTop: '15px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', backgroundColor: '#ffffff', padding: '10px 15px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', flex: '1', minWidth: '260px' }}>
           <IconMarcenaria />
           <div>
-            <h1 style={{ margin: 0, color: '#0f172a', fontSize: '20px' }}>Vidal Design e Móveis</h1>
+            <h1 style={{ margin: 0, color: '#0f172a', fontSize: '18px', fontWeight: 'bold' }}>Vidal Design e Móveis</h1>
             <p style={{ margin: '2px 0 0 0', color: '#64748b', fontSize: '12px' }}>Sistema Interno de Gestão</p>
           </div>
         </div>
 
-        <button onClick={fazerLogout} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', backgroundColor: '#fee2e2', color: '#dc2626', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '13px' }}>
+        <button onClick={fazerLogout} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '10px 14px', backgroundColor: '#fee2e2', color: '#dc2626', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '13px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
           <IconLogout /> Sair
         </button>
       </div>
 
-      {/* MENU COM ROLAGEM HORIZONTA PARA CELULAR */}
-      <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', backgroundColor: '#fff', padding: '10px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '20px', WebkitOverflowScrolling: 'touch' }}>
+      {/* MENU COM ROLAGEM HORIZONTAL PARA CELULAR */}
+      <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', backgroundColor: '#ffffff', padding: '10px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '20px', WebkitOverflowScrolling: 'touch' }}>
         <button onClick={() => setAbaAtiva('dashboard')} style={btnStyle('dashboard')}><IconDashboard /> Dashboard</button>
         <button onClick={() => setAbaAtiva('pedidos')} style={btnStyle('pedidos')}><IconPedidos /> Pedidos</button>
         <button onClick={() => setAbaAtiva('estoque')} style={btnStyle('estoque')}><IconEstoque /> Estoque</button>
@@ -154,52 +154,54 @@ function App() {
         <button onClick={() => setAbaAtiva('compras')} style={btnStyle('compras')}><IconCompras /> Compras</button>
       </div>
 
-      {/* ESTILOS GLOBAIS DE RESPONSIVIDADE PARA FORMULÁRIOS E TABELAS */}
+      {/* ESTILOS GLOBAIS FORÇANDO TEMA CLARO E CORES LEGÍVEIS */}
       <style>{`
-        input, select { border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; width: 100%; box-sizing: border-box; transition: border-color 0.2s; background-color: #fff; }
+        body { background-color: #f8fafc; color: #1e293b; margin: 0; }
+        input, select { border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; width: 100%; box-sizing: border-box; transition: border-color 0.2s; background-color: #ffffff; color: #1e293b; }
         input:focus, select:focus { border-color: #3b82f6; }
         .linha-form { display: flex; gap: 10px; flex-wrap: wrap; width: 100%; }
         .linha-form > * { flex: 1; min-width: 200px; }
         .tabela-container { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 15px; }
-        table { width: 100%; min-width: 550px; text-align: left; border-collapse: collapse; }
-        th { background-color: #f8fafc; padding: 12px 8px; border-bottom: 2px solid #e2e8f0; color: #475569; font-size: 13px; }
-        td { padding: 12px 8px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
-        button[type="submit"] { background-color: #3b82f6; border-radius: 6px; font-weight: bold; padding: 12px; color: #fff; border: none; cursor: 'pointer'; width: 100%; transition: background-color 0.2s; }
+        table { width: 100%; min-width: 550px; text-align: left; border-collapse: collapse; background-color: #ffffff; }
+        th { background-color: #f1f5f9; padding: 12px 8px; border-bottom: 2px solid #e2e8f0; color: #334155; font-size: 13px; }
+        td { padding: 12px 8px; border-bottom: 1px solid #f1f5f9; color: #1e293b; font-size: 14px; }
+        button[type="submit"] { background-color: #3b82f6; border-radius: 6px; font-weight: bold; padding: 12px; color: #ffffff; border: none; cursor: pointer; width: 100%; transition: background-color 0.2s; }
         button[type="submit"]:hover { background-color: #2563eb; }
+        h2, h3, p, label { color: #1e293b; }
       `}</style>
 
-      <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}>
+      <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', color: '#1e293b', marginBottom: '30px' }}>
         
         {/* TELA 0: DASHBOARD */}
         {abaAtiva === 'dashboard' && (
           <div>
-            <h2 style={{ marginTop: 0, fontSize: '18px' }}>Visão Geral da Marcenaria</h2>
+            <h2 style={{ marginTop: 0, fontSize: '18px', color: '#0f172a' }}>Visão Geral da Marcenaria</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px', marginTop: '20px' }}>
-              <div style={{ backgroundColor: '#fff', padding: '15px', borderRadius: '12px', borderLeft: '6px solid #3b82f6', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+              <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '12px', borderLeft: '6px solid #3b82f6', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                 <h4 style={{ margin: '0 0 8px 0', color: '#64748b', fontSize: '13px' }}>Total em Pedidos</h4>
                 <h2 style={{ margin: 0, color: '#0f172a', fontSize: '24px' }}>R$ {totalPedidos.toFixed(2)}</h2>
               </div>
-              <div style={{ backgroundColor: '#fff', padding: '15px', borderRadius: '12px', borderLeft: '6px solid #ef4444', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+              <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '12px', borderLeft: '6px solid #ef4444', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                 <h4 style={{ margin: '0 0 8px 0', color: '#64748b', fontSize: '13px' }}>Gasto c/ Materiais</h4>
                 <h2 style={{ margin: 0, color: '#0f172a', fontSize: '24px' }}>R$ {totalCompras.toFixed(2)}</h2>
               </div>
-              <div style={{ backgroundColor: '#fff', padding: '15px', borderRadius: '12px', borderLeft: '6px solid #f59e0b', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+              <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '12px', borderLeft: '6px solid #f59e0b', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                 <h4 style={{ margin: '0 0 8px 0', color: '#64748b', fontSize: '13px' }}>Diárias a Pagar</h4>
                 <h2 style={{ margin: 0, color: '#0f172a', fontSize: '24px' }}>R$ {totalDiariasPendentes.toFixed(2)}</h2>
               </div>
-              <div style={{ backgroundColor: '#fff', padding: '15px', borderRadius: '12px', borderLeft: `6px solid ${lucroEstimado >= 0 ? '#10b981' : '#ef4444'}`, boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+              <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '12px', borderLeft: `6px solid ${lucroEstimado >= 0 ? '#10b981' : '#ef4444'}`, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                 <h4 style={{ margin: '0 0 8px 0', color: '#64748b', fontSize: '13px' }}>Saldo Estimado</h4>
                 <h2 style={{ margin: 0, color: lucroEstimado >= 0 ? '#10b981' : '#ef4444', fontSize: '24px' }}>R$ {lucroEstimado.toFixed(2)}</h2>
               </div>
             </div>
-            <p style={{ color: '#94a3b8', fontSize: '12px', marginTop: '20px' }}>* O saldo estimado abate os gastos com materiais e diárias do valor total dos pedidos.</p>
+            <p style={{ color: '#64748b', fontSize: '12px', marginTop: '20px' }}>* O saldo estimado abate os gastos com materiais e diárias do valor total dos pedidos.</p>
           </div>
         )}
 
         {/* TELA 1: PEDIDOS */}
         {abaAtiva === 'pedidos' && (
           <div>
-            <h2 style={{ marginTop: 0, fontSize: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}><IconPedidos /> Novo Pedido</h2>
+            <h2 style={{ marginTop: 0, fontSize: '18px', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}><IconPedidos /> Novo Pedido</h2>
             <form onSubmit={cadastrarPedido} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '30px' }}>
               <input type="text" placeholder="Nome do Cliente" value={clienteNome} onChange={(e) => setClienteNome(e.target.value)} required />
               <input type="text" placeholder="Descrição do Móvel (ex: Armário Cozinha)" value={descricaoProjeto} onChange={(e) => setDescricaoProjeto(e.target.value)} required />
@@ -208,7 +210,7 @@ function App() {
               <div className="linha-form">
                 <input type="number" step="0.01" placeholder="Valor Cobrado (R$)" value={valorTotal} onChange={(e) => setValorTotal(e.target.value)} required />
                 <div>
-                  <label style={{ fontSize: '11px', color: '#64748b', marginBottom: '2px', display: 'block', fontWeight: 'bold' }}>Prazo de Entrega:</label>
+                  <label style={{ fontSize: '11px', color: '#475569', marginBottom: '2px', display: 'block', fontWeight: 'bold' }}>Prazo de Entrega:</label>
                   <input type="date" value={dataEntrega} onChange={(e) => setDataEntrega(e.target.value)} required />
                 </div>
               </div>
@@ -226,7 +228,7 @@ function App() {
               <button type="submit">Salvar Pedido</button>
             </form>
 
-            <h3 style={{ fontSize: '16px' }}>Painel de Produção</h3>
+            <h3 style={{ fontSize: '16px', color: '#0f172a' }}>Painel de Produção</h3>
             <div className="tabela-container">
               <table>
                 <thead><tr><th>ID</th><th>Cliente</th><th>Projeto / Material</th><th>Prazo</th><th>Responsável</th><th>Status</th></tr></thead>
@@ -234,13 +236,13 @@ function App() {
                   {pedidos.map(ped => (
                     <tr key={ped.id}>
                       <td style={{ fontWeight: 'bold', color: '#64748b' }}>{ped.codigo_pedido || 'N/A'}</td>
-                      <td style={{ fontWeight: 'bold' }}>{ped.cliente_nome}</td>
-                      <td>
+                      <td style={{ fontWeight: 'bold', color: '#1e293b' }}>{ped.cliente_nome}</td>
+                      <td style={{ color: '#1e293b' }}>
                         {ped.descricao_projeto}
                         {ped.tipo_material && <span style={{ fontSize: '11px', color: '#64748b', display: 'block' }}>Material: {ped.tipo_material}</span>}
                       </td>
-                      <td style={{ fontWeight: '500' }}>{ped.data_entrega.split('-').reverse().join('/')}</td>
-                      <td>{ped.funcionarios?.nome || 'N/A'}</td>
+                      <td style={{ fontWeight: '500', color: '#1e293b' }}>{ped.data_entrega.split('-').reverse().join('/')}</td>
+                      <td style={{ color: '#1e293b' }}>{ped.funcionarios?.nome || 'N/A'}</td>
                       <td>
                         <select value={ped.status} onChange={(e) => alterarStatusPedido(ped.id, e.target.value)} style={{ padding: '6px 8px', backgroundColor: corStatus(ped.status), color: ped.status === 'Orçamento' ? '#333' : '#fff', borderRadius: '6px', border: 'none', fontSize: '12px', cursor: 'pointer', fontWeight: 'bold' }}>
                           <option value="Orçamento" style={{backgroundColor: '#fff', color: '#333'}}>Orçamento</option><option value="Produção" style={{backgroundColor: '#fff', color: '#333'}}>Em Produção</option><option value="Concluído" style={{backgroundColor: '#fff', color: '#333'}}>Concluído</option>
@@ -257,7 +259,7 @@ function App() {
         {/* TELA 2: ESTOQUE */}
         {abaAtiva === 'estoque' && (
           <div>
-            <h2 style={{ marginTop: 0, fontSize: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}><IconEstoque /> {estoqueEmEdicao ? 'Editando Material' : 'Adicionar ao Estoque'}</h2>
+            <h2 style={{ marginTop: 0, fontSize: '18px', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}><IconEstoque /> {estoqueEmEdicao ? 'Editando Material' : 'Adicionar ao Estoque'}</h2>
             <form onSubmit={salvarItemEstoque} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '30px', padding: estoqueEmEdicao ? '15px' : '0', backgroundColor: estoqueEmEdicao ? '#f1f5f9' : 'transparent', borderRadius: '8px' }}>
               <input type="text" placeholder="Nome do Item (ex: Dobradiça Reta)" value={nomeItem} onChange={(e) => setNomeItem(e.target.value)} required />
               <div className="linha-form">
@@ -272,7 +274,7 @@ function App() {
               </div>
             </form>
 
-            <h3 style={{ fontSize: '16px' }}>Controle de Materiais</h3>
+            <h3 style={{ fontSize: '16px', color: '#0f172a' }}>Controle de Materiais</h3>
             <div className="tabela-container">
               <table>
                 <thead><tr><th>Item</th><th>Qtd Atual</th><th>Qtd Mínima</th><th>Aviso</th><th>Ações</th></tr></thead>
@@ -281,7 +283,9 @@ function App() {
                     const precisaComprar = item.quantidade_atual <= item.quantidade_minima;
                     return (
                       <tr key={item.id}>
-                        <td style={{ fontWeight: 'bold' }}>{item.nome_item}</td><td>{item.quantidade_atual}</td><td>{item.quantidade_minima}</td>
+                        <td style={{ fontWeight: 'bold', color: '#1e293b' }}>{item.nome_item}</td>
+                        <td style={{ color: '#1e293b' }}>{item.quantidade_atual}</td>
+                        <td style={{ color: '#1e293b' }}>{item.quantidade_minima}</td>
                         <td>{precisaComprar ? <span style={{ padding: '4px 8px', backgroundColor: '#ef4444', color: '#fff', borderRadius: '6px', fontSize: '11px', fontWeight: 'bold' }}>Comprar Mais</span> : <span style={{ padding: '4px 8px', backgroundColor: '#e2e8f0', color: '#475569', borderRadius: '6px', fontSize: '11px', fontWeight: 'bold' }}>Estoque OK</span>}</td>
                         <td><button onClick={() => iniciarEdicaoEstoque(item)} style={{ padding: '6px 10px', backgroundColor: '#3b82f6', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold', width: 'auto' }}>Editar</button></td>
                       </tr>
@@ -296,7 +300,7 @@ function App() {
         {/* TELA 3: EQUIPE */}
         {abaAtiva === 'equipe' && (
           <div>
-            <h2 style={{ marginTop: 0, fontSize: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}><IconEquipe /> Cadastro de Equipe</h2>
+            <h2 style={{ marginTop: 0, fontSize: '18px', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}><IconEquipe /> Cadastro de Equipe</h2>
             <form onSubmit={cadastrarFuncionario} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '30px' }}>
               <input type="text" placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} required />
               <input type="text" placeholder="Cargo" value={cargo} onChange={(e) => setCargo(e.target.value)} required />
@@ -304,13 +308,17 @@ function App() {
               <button type="submit">Salvar Funcionário</button>
             </form>
 
-            <h3 style={{ fontSize: '16px' }}>Funcionários Cadastrados</h3>
+            <h3 style={{ fontSize: '16px', color: '#0f172a' }}>Funcionários Cadastrados</h3>
             <div className="tabela-container">
               <table>
                 <thead><tr><th>Nome</th><th>Cargo</th><th>Diária Padrão</th></tr></thead>
                 <tbody>
                   {funcionarios.map(func => (
-                    <tr key={func.id}><td style={{ fontWeight: 'bold' }}>{func.nome}</td><td>{func.cargo}</td><td>R$ {func.valor_diaria}</td></tr>
+                    <tr key={func.id}>
+                      <td style={{ fontWeight: 'bold', color: '#1e293b' }}>{func.nome}</td>
+                      <td style={{ color: '#1e293b' }}>{func.cargo}</td>
+                      <td style={{ color: '#1e293b' }}>R$ {func.valor_diaria}</td>
+                    </tr>
                   ))}
                 </tbody>
               </table>
@@ -321,7 +329,7 @@ function App() {
         {/* TELA 4: DIÁRIAS */}
         {abaAtiva === 'diarias' && (
           <div>
-            <h2 style={{ marginTop: 0, fontSize: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}><IconDiarias /> Lançar Diária</h2>
+            <h2 style={{ marginTop: 0, fontSize: '18px', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}><IconDiarias /> Lançar Diária</h2>
             <form onSubmit={registrarDiaria} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '30px' }}>
               <div className="linha-form">
                 <input type="date" value={dataTrabalho} onChange={(e) => setDataTrabalho(e.target.value)} required />
@@ -332,28 +340,28 @@ function App() {
               </div>
               <div className="linha-form">
                 <div>
-                  <label style={{ fontSize: '12px', color: '#64748b', marginBottom: '4px', display: 'block', fontWeight: 'bold' }}>Horas Trabalhadas:</label>
+                  <label style={{ fontSize: '12px', color: '#475569', marginBottom: '4px', display: 'block', fontWeight: 'bold' }}>Horas Trabalhadas:</label>
                   <input type="number" step="0.5" value={horasTrabalhadas} onChange={(e) => setHorasTrabalhadas(e.target.value)} required />
                 </div>
                 <div>
-                  <label style={{ fontSize: '12px', color: '#64748b', marginBottom: '4px', display: 'block', fontWeight: 'bold' }}>Valor a Pagar (R$):</label>
+                  <label style={{ fontSize: '12px', color: '#475569', marginBottom: '4px', display: 'block', fontWeight: 'bold' }}>Valor a Pagar (R$):</label>
                   <input type="number" step="0.01" value={valorDiariaAplicado} onChange={(e) => setValorDiariaAplicado(e.target.value)} required />
                 </div>
               </div>
               <button type="submit" style={{ marginTop: '5px' }}>Registrar Diária</button>
             </form>
 
-            <h3 style={{ fontSize: '16px' }}>Histórico de Diárias</h3>
+            <h3 style={{ fontSize: '16px', color: '#0f172a' }}>Histórico de Diárias</h3>
             <div className="tabela-container">
               <table>
                 <thead><tr><th>Data</th><th>Funcionário</th><th>Horas</th><th>Valor</th><th>Situação</th></tr></thead>
                 <tbody>
                   {diarias.map(diaria => (
                     <tr key={diaria.id}>
-                      <td>{diaria.data_trabalho.split('-').reverse().join('/')}</td>
-                      <td style={{ fontWeight: 'bold' }}>{diaria.funcionarios?.nome || 'N/A'}</td>
-                      <td>{diaria.horas_trabalhadas ? `${diaria.horas_trabalhadas}h` : 'N/A'}</td>
-                      <td>R$ {diaria.valor_diaria_aplicado}</td>
+                      <td style={{ color: '#1e293b' }}>{diaria.data_trabalho.split('-').reverse().join('/')}</td>
+                      <td style={{ fontWeight: 'bold', color: '#1e293b' }}>{diaria.funcionarios?.nome || 'N/A'}</td>
+                      <td style={{ color: '#1e293b' }}>{diaria.horas_trabalhadas ? `${diaria.horas_trabalhadas}h` : 'N/A'}</td>
+                      <td style={{ color: '#1e293b' }}>R$ {diaria.valor_diaria_aplicado}</td>
                       <td>
                         <button onClick={() => alternarPagamentoDiaria(diaria.id, diaria.pago)} style={{ padding: '6px 10px', backgroundColor: diaria.pago ? '#10b981' : '#ef4444', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '11px', cursor: 'pointer', fontWeight: 'bold', width: 'auto' }}>
                           {diaria.pago ? '✓ PAGO' : 'PENDENTE'}
@@ -370,7 +378,7 @@ function App() {
         {/* TELA 5: COMPRAS E NOTAS */}
         {abaAtiva === 'compras' && (
           <div>
-            <h2 style={{ marginTop: 0, fontSize: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}><IconCompras /> Compras Avulsas</h2>
+            <h2 style={{ marginTop: 0, fontSize: '18px', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}><IconCompras /> Compras Avulsas</h2>
             <form onSubmit={cadastrarCompra} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '30px' }}>
               <input type="date" value={dataCompra} onChange={(e) => setDataCompra(e.target.value)} required />
               <input type="text" placeholder="Descrição (ex: Parafusos e cola)" value={descricaoCompra} onChange={(e) => setDescricaoCompra(e.target.value)} required />
@@ -383,17 +391,17 @@ function App() {
               <button type="submit">Registrar Compra</button>
             </form>
 
-            <h3 style={{ fontSize: '16px' }}>Histórico de Compras</h3>
+            <h3 style={{ fontSize: '16px', color: '#0f172a' }}>Histórico de Compras</h3>
             <div className="tabela-container">
               <table>
                 <thead><tr><th>Data</th><th>Descrição</th><th>Valor</th><th>Comprador</th></tr></thead>
                 <tbody>
                   {compras.map(comp => (
                     <tr key={comp.id}>
-                      <td>{comp.data_compra.split('-').reverse().join('/')}</td>
-                      <td>{comp.descricao_compra} {comp.numero_nota && <span style={{fontSize: '11px', color: '#64748b', display: 'block'}}>NF: {comp.numero_nota}</span>}</td>
-                      <td style={{ fontWeight: 'bold' }}>R$ {comp.valor}</td>
-                      <td>{comp.funcionarios?.nome || 'N/A'}</td>
+                      <td style={{ color: '#1e293b' }}>{comp.data_compra.split('-').reverse().join('/')}</td>
+                      <td style={{ color: '#1e293b' }}>{comp.descricao_compra} {comp.numero_nota && <span style={{fontSize: '11px', color: '#64748b', display: 'block'}}>NF: {comp.numero_nota}</span>}</td>
+                      <td style={{ fontWeight: 'bold', color: '#1e293b' }}>R$ {comp.valor}</td>
+                      <td style={{ color: '#1e293b' }}>{comp.funcionarios?.nome || 'N/A'}</td>
                     </tr>
                   ))}
                 </tbody>
